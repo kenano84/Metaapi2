@@ -1,29 +1,36 @@
-import model.repository.users_repo as gr
-from flask import request
+from flask import json
+
+from model.repository.users_repo import UsersRepo
+
+gr = UsersRepo()
 
 
 def get_all_users():
-    users = gr.UsersRepo.get_all_users()
+    users = gr.get_all_users()
     users = [user.to_dict() for user in users]
     return users
 
+
 def get_user_by_id(id):
-    gr.UsersRepo.get_user_by_id(id)
+    user = gr.get_user_by_id(id)
     return user
 
-def add_user():
-    gr.UsersRepo.create_user(data)
+
+def add_user(data):
+    gr.create_user(data)
     return
 
+
 def change_entire_user_info(id, new_user_data):
-    new_user = new_user_data(id, request_data['username'], request_data['password'], request_data['email'], request_data['apis'])
+    new_user = (id, new_user_data['username'], new_user_data['password'], new_user_data['email'], new_user_data['apis'])
     gr.UsersRepo.changed_user(id, new_user)
     return
+
 
 def change_fields(id, request_data):
     if "username" in request_data:
         username = request_data['username']
-        gr.UsersRepo.change_username (id, "username")
+        gr.UsersRepo.change_username (id, username)
         return
 
     if "password" in request_data:
@@ -38,6 +45,6 @@ def change_fields(id, request_data):
 
     if "apis" in request_data:
         apis = request_data['apis']
-        gr.UsersRepo.change_apis(id, email)
+        gr.UsersRepo.change_apis(id, apis)
         return
     return

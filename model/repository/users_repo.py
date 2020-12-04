@@ -1,13 +1,13 @@
-from model.db import session, db
+import json
+
+from model.db import db
 from model.models.user import User
 from model.schemas.user_schema import UserSchema
-
 from flask import jsonify
 
-class UsersRepo:
 
-    @staticmethod
-    def get_all_users():
+class UsersRepo:
+    def get_all_users(self):
         users = User.query.all()
         user_schema = UserSchema()
         user_schema.dump(User.query.all())
@@ -17,8 +17,8 @@ class UsersRepo:
         user = User.query.get(id)
         return user
 
-    def create_user(self, data):
-        user = User(data)
+    def create_user(self, user):
+        user = User(username=user['username'], password=user['password'], email=user['email'])
         db.session.add(user)
         db.session.commit()
         return
@@ -26,7 +26,7 @@ class UsersRepo:
     def changed_user(self, _id, new_user):
         old_user_info = User.query.get(_id)
         db.session.delete(old_user_info)
-        new_user = User(id=new_user['id'], username=new_user['username'], password=new_user['password'], email=new_user['email'], apis=new_user['apis'])
+        new_user = User(id=new_user['id'], username=new_user['username'], password=new_user['password'], email=new_user['email'])  #  , apis=new_user['apis'])
         db.session.add(new_user)
         db.session.commit()
         return
