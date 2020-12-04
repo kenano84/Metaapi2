@@ -11,5 +11,6 @@ class Api(db.Model):
     user = relationship("User") # ägaren/parent
     resources = relationship('Resource') # lista som api kommer åt
 
-
-
+    def to_dict(self):
+        return {'user_id': self.id, 'username': self.username, 'password': self.password,
+                'email': self.email, 'endpoints': [endpoints.to_dict() for endpoints in self.endpoints]}

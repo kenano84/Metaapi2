@@ -1,7 +1,7 @@
 from app import app
 from flask import Response, request
 import json
-import controller.users_controller as usc
+import controllers.users_controller as usc
 
 
 @app.route("/")
@@ -25,7 +25,7 @@ def add_user():
 @app.route('/users/<string:id>', methods=['GET', 'DELETE', 'PUT'])
 def get_user_by_id(id):
     user = usc.get_user_by_id(id)
-    return json.dumps(user), {'ContentType': 'application/json'}
+    return json.dumps(user.to_dict()), {'ContentType': 'application/json'}
 
 
 def delete_user_by_id(id):
