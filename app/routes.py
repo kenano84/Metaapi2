@@ -1,8 +1,12 @@
 from app import app
 from flask import Response, request
 import json
+<<<<<<< HEAD
 import controller.users_controller as usc
 import controller.apis_controller as ac
+=======
+import controllers.users_controller as usc
+>>>>>>> 27c13c892ce1ccbcd435bc03d1ca148967f97009
 
 
 @app.route("/")
