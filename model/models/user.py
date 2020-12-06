@@ -1,7 +1,7 @@
 import sqlalchemy as sa
-from sqlalchemy.orm import relationship 
-
+from sqlalchemy.orm import relationship
 from model.db import db
+import model.models.apis
 
 
 class User(db.Model): # parent till apis
@@ -10,13 +10,12 @@ class User(db.Model): # parent till apis
     username = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String, nullable=False)
     email = db.Column(db.String, nullable=False)
-    # apis = relationship("Api")
+    apis = relationship("Api")
 
     def to_dict(self):
         return {'user_id': self.id, 'username': self.username, 'password': self.password,
-                'email': self.email}
-
-                #  , 'apis': self.apis}
-                # apis hur? det är en lista?
+                'email': self.email, "apis": [api.to_dict() for api in self.apis]}
 
 
+#db.create_all()
+#db.session.commit()
